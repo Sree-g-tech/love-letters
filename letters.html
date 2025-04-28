@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Love Letter 💌</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+    textarea {
+      width: 80%;
+      max-width: 500px;
+      height: 150px;
+      padding: 10px;
+      border: 2px solid #fff;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      resize: none;
+      font-size: 16px;
+    }
+    button {
+      background-color: #ff6f91;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    button:hover {
+      background-color: #ff4e70;
+    }
+    .link, .letter {
+      margin-top: 20px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 80%;
+      word-break: break-word;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    a {
+      color: #ff6f91;
+      text-decoration: none;
+      word-wrap: break-word;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="writer">
+    <h1>Write Your Love Letter 💌</h1>
+    <textarea id="letterInput" placeholder="Write something beautiful..."></textarea><br>
+    <button onclick="createLink()">Create Love Link</button>
+    <div id="link" class="link" style="display:none;"></div>
+  </div>
+
+  <div id="reader" style="display:none;">
+    <h1>Someone Sent You a Love Letter 💖</h1>
+    <div class="letter" id="letterDisplay"></div>
+  </div>
+
+  <script>
+    function createLink() {
+      const letter = document.getElementById('letterInput').value.trim();
+      if (letter === "") {
+        alert("Please write something first!");
+        return;
+      }
+      const encodedLetter = encodeURIComponent(letter);
+      const link = window.location.origin + window.location.pathname + "?letter=" + encodedLetter;
+      const linkDiv = document.getElementById('link');
+      linkDiv.innerHTML = `<p>Share this link:</p><a href="${link}">${link}</a>`;
+      linkDiv.style.display = "block";
+    }
+
+    window.onload = function() {
+      const params = new URLSearchParams(window.location.search);
+      const letter = params.get('letter');
+      if (letter) {
+        document.getElementById('writer').style.display = 'none';
+        document.getElementById('reader').style.display = 'block';
+        document.getElementById('letterDisplay').textContent = decodeURIComponent(letter);
+      }
+    }
+  </script>
+
+</body>
+</html>
